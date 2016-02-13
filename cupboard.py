@@ -145,6 +145,9 @@ class Cupboard(_collections.MutableMapping):
         self._update_cache(key, value)
 
     def __delitem__(self, key):
+        if not isinstance(key, str):
+            raise TypeError('keys in a Cupboard must always be strings. {} is not a string'.format(repr(key)))
+
         with self.conn:
             self.conn.execute(_DEL_QUERY, (key,))
 
